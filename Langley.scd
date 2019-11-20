@@ -23,11 +23,11 @@ SynthDef(
 SynthDef(
 	name: "Didg",
 	ugenGraphFunc: {
-		arg frequency, breath=0, breathLevel = 0.5, pitchbend = 1, widthlevel=0.5, cutlevel=400, spreadlevel=0;
-		var squarewave1 = LFPulse.ar(freq: (frequency * pitchbend)+spreadlevel, iphase: 0, width: widthlevel, mul: breath * breathLevel, add: 0);
-		var clarsound1 = LPF.ar(in: [squarewave1, squarewave1], freq: cutlevel, mul: 1, add: 0);
-		var squarewave2 = LFPulse.ar(freq: (frequency * pitchbend)-spreadlevel, iphase: 0, width: widthlevel, mul: breath * breathLevel, add: 0);
-		var clarsound2 = LPF.ar(in: [squarewave2, squarewave2], freq: cutlevel, mul: 1, add: 0);
+		arg frequency, breath=0, breathLevel = 0.5, pitchbend = 1, widthlevel=0.5, cutlevel=4, spreadlevel=1;
+		var squarewave1 = LFPulse.ar(freq: (frequency * pitchbend)*spreadlevel, iphase: 0, width: widthlevel, mul: breath * breathLevel, add: 0);
+		var clarsound1 = LPF.ar(in: [squarewave1, squarewave1], freq: cutlevel*frequency, mul: 1, add: 0);
+		var squarewave2 = LFPulse.ar(freq: (frequency * pitchbend)/spreadlevel, iphase: 0, width: widthlevel, mul: breath * breathLevel, add: 0);
+		var clarsound2 = LPF.ar(in: [squarewave2, squarewave2], freq: cutlevel*frequency, mul: 1, add: 0);
 		var result = Mix.new([clarsound1, clarsound2]);
 		Out.ar(0, result);
 	}
@@ -66,7 +66,7 @@ SynthDef(
 HIDdef.element(
 	key: \RightHorizontal,
 	func: { |value|
-		~usedSynth.set(\spreadlevel, (value - 0.50196081399918));
+		~usedSynth.set(\spreadlevel, 2 ** (((value - 0.50196081399918)*2)/12));
 	},
 	elID: 3
 );
@@ -74,7 +74,7 @@ HIDdef.element(
 HIDdef.element(
 	key: \RightVertical,
 	func: { |value|
-		~usedSynth.set(\cutlevel, 400 * (value + 1 - 0.50196081399918));
+		~usedSynth.set(\cutlevel, 4 * (value + 1 - 0.50196081399918));
 	},
 	elID: 4
 );
