@@ -12,10 +12,10 @@ HID.findAvailable;
 SynthDef(
 	name: "PTWE",
 	ugenGraphFunc: {
-		arg frequency, modfreqratio=10.08, modindex=(3000 * 0.50196081399918), cutlevel=3000, roomlevel=0.65, mixlevel=0.16, damplevel=0.5, pitchbend = 1, breath=0, breathLevel = 0.50196081399918, modmodlevel = 1;
+		arg frequency, modfreqratio=10.08, modindex=(102.4 * (0.50196081399918 * 0.50196081399918)) - (38.4 * 0.50196081399918), cutlevel=3000, roomlevel=0.65, mixlevel=0.16, damplevel=0.5, pitchbend = 1, breath=0, breathLevel = 0.50196081399918, modmodlevel = 1;
 		var modulator = LFTri.ar(freq: frequency*modfreqratio*pitchbend, iphase: 0, mul: 1, add: 0);
 		//var carrier = LFTri.ar(freq: (frequency + (modulator * modindex * modmodlevel))*pitchbend, iphase: 0, mul: breath * breathLevel, add: 0);
-		var carrier = LFTri.ar(freq: (frequency + (modulator * modindex))*pitchbend, iphase: 0, mul: breath * breathLevel, add: 0);
+		var carrier = LFTri.ar(freq: (frequency + (modulator * modindex * frequency))*pitchbend, iphase: 0, mul: breath * breathLevel, add: 0);
 		var result = LPF.ar(in: carrier, freq: cutlevel, mul: 1, add: 0);
 		var result2 = FreeVerb2.ar(result, result, mix: mixlevel, room: roomlevel, damp: damplevel, mul: 1, add: 0);
 		Out.ar(0, result2);
@@ -43,9 +43,9 @@ HIDdef.element(
 	key: \RightHorizontal,
 	func: { |value|
 		"modindex".postln;
-		((5600 * (value * value)) - (2100 * value)).postln;
+		((102.4 * (value * value)) - (38.4 * value)).postln;
 		//~usedSynth.set(\modindex, value*700);
-		~usedSynth.set(\modindex, ((5600 * (value * value)) - (2100 * value)));
+		~usedSynth.set(\modindex, ((102.4 * (value * value)) - (38.4 * value)));
 	},
 	elID: 3
 );
