@@ -12,13 +12,29 @@ HID.findAvailable;
 SynthDef(
 	name: "PTWE",
 	ugenGraphFunc: {
-		arg frequency, modfreqratio=10.08, modindex=(102.4 * (0.50196081399918 * 0.50196081399918)) - (38.4 * 0.50196081399918), cutlevel=3000, roomlevel=0.65, mixlevel=0.16, damplevel=0.5, pitchbend = 1, breath=0, breathLevel = 0.50196081399918, modmodlevel = 1;
+		arg frequency, pitchbend = 1, breath=0, breathLevel = 0.50196081399918, rightVertical = 0.50196081399918,
+		//Specific for the instrument
+		modfreqratio=10.08,
+		modindex=(102.4 * (0.50196081399918 * 0.50196081399918)) - (38.4 * 0.50196081399918),
+		//GUI
+		cutlevel=3000,
+		roomlevel=0.65,
+		mixlevel=0.16,
+		damplevel=0.5;
+		var spreadlevel = 2 ** (((rightVertical - 0.50196081399918)*2)/12);
 		var modulator = LFTri.ar(freq: frequency*modfreqratio*pitchbend, iphase: 0, mul: 1, add: 0);
-		//var carrier = LFTri.ar(freq: (frequency + (modulator * modindex * modmodlevel))*pitchbend, iphase: 0, mul: breath * breathLevel, add: 0);
-		var carrier = LFTri.ar(freq: (frequency + (modulator * modindex * frequency))*pitchbend, iphase: 0, mul: breath * breathLevel, add: 0);
-		var result = LPF.ar(in: carrier, freq: cutlevel, mul: 1, add: 0);
-		var result2 = FreeVerb2.ar(result, result, mix: mixlevel, room: roomlevel, damp: damplevel, mul: 1, add: 0);
-		Out.ar(0, result2);
+		var carrierA = LFTri.ar(freq: ((frequency + (modulator * modindex * frequency))*pitchbend)*spreadlevel, iphase: 0, mul: breath * breathLevel, add: 0);
+		var carrierB = LFTri.ar(freq: ((frequency + (modulator * modindex * frequency))*pitchbend)/spreadlevel, iphase: 0, mul: breath * breathLevel, add: 0);
+
+		var resultA = LPF.ar(in: carrierA, freq: cutlevel, mul: 1, add: 0);
+		var result2A = FreeVerb2.ar(resultA, resultA, mix: mixlevel, room: roomlevel, damp: damplevel, mul: 0.5, add: 0);
+
+		var resultB = LPF.ar(in: carrierB, freq: cutlevel, mul: 1, add: 0);
+		var result2B = FreeVerb2.ar(resultB, resultB, mix: mixlevel, room: roomlevel, damp: damplevel, mul: 0.5, add: 0);
+
+		var resultfin = Mix.new([result2A, result2B]);
+
+		Out.ar(0, resultfin);
 	}
 ).add
 );
@@ -56,6 +72,7 @@ HIDdef.element(
 		//"modmodlevel".post;
 		//((6 * (value * value)) - value).postln;
 		//~usedSynth.set(\modmodlevel, (6 * (value * value)) - value);
+		~usedSynth.set(\rightVertical, value);
 	},
 	elID: 4
 );
