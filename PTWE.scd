@@ -8,6 +8,13 @@ HID.findAvailable;
 
 //8 * 1.25992 ~~ 10.08
 
+~qi16 = { arg value;
+	if ( value <= 0.50196081399918,
+		{ 11.953 * value },
+		{ (209.83 * value * value) + ((-198.7)*value) + 52.87}
+	)
+};
+
 (
 SynthDef(
 	name: "PTWE",
@@ -15,7 +22,8 @@ SynthDef(
 		arg frequency, pitchbend = 1, breath=0, breathLevel = 0.50196081399918, rightVertical = 0.50196081399918,
 		//Specific for the instrument
 		modfreqratio=10.08,
-		modindex=(102.4 * (0.50196081399918 * 0.50196081399918)) - (38.4 * 0.50196081399918),
+		//modfreqratio=1.61803,
+		modindex= 11.953 * 0.50196081399918,
 		//GUI
 		cutlevel=3000,
 		roomlevel=0.65,
@@ -58,10 +66,10 @@ SynthDef(
 HIDdef.element(
 	key: \RightHorizontal,
 	func: { |value|
-		"modindex".postln;
-		((102.4 * (value * value)) - (38.4 * value)).postln;
+		"modindex ".post;
+		~qi16.value(value).postln;
 		//~usedSynth.set(\modindex, value*700);
-		~usedSynth.set(\modindex, ((102.4 * (value * value)) - (38.4 * value)));
+		~usedSynth.set(\modindex, ~qi16.value(value));
 	},
 	elID: 3
 );
@@ -95,6 +103,8 @@ HIDdef.element(
 
 );
 
+~switch = 0;
+
 HIDdef.usage(
 	key: \Select,
 	func: { |value|
@@ -107,6 +117,30 @@ HIDdef.usage(
 		)
 		},
 	elUsageName: \b9,
+
+);
+
+HIDdef.usage(
+	key: \LPush,
+	func: { |value|
+		if (
+			value == 1,
+			{
+				if (
+					~switch == 0,
+					{
+						~usedSynth.set(\modfreqratio, 1.61803 );
+						~switch = 1;
+					},
+					{
+						~usedSynth.set(\modfreqratio, 10.08 );
+						~switch = 0;
+					}
+				)
+			}
+		)
+		},
+	elUsageName: \b11,
 
 );
 
