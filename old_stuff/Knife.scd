@@ -1,72 +1,58 @@
+s.boot;
+
 HID.findAvailable;
 ~myhid = HID.open( 121, 6 );
 
-s.boot;
+//HID.debug = true;
+//HID.debug = false;
+
+//8 * 1.25992 ~~ 10.08
 
 (
 SynthDef(
-	name: "Normie",
+	name: "Knife",
 	ugenGraphFunc: {
-		arg frequency, breath=0, breathLevel = 0.5, pitchbend = 1;
-		var simpleSin = SinOsc.ar(
-			freq: frequency * pitchbend,
-			phase: 0,
-			mul: breath * breathLevel,
-			add: 0
-		);
-		Out.ar(0, simpleSin);
+		arg frequency, basewidth=0.50196081399918, cutlevel=3000, roomlevel=0.65, mixlevel=0.16, damplevel=0.5, pitchbend = 1, breath=0, breathLevel = 0.50196081399918, modmodlevel = 1;
+
+		var rq = (0.08*basewidth) + 0.005;
+		var banda = Array.fill(6, { arg i;
+			var infreq = frequency * (i + 1);
+			var result = WhiteNoise.ar(mul: (breath * breathLevel) / (i + 1), add: 0.0);
+			result = BPF.ar(in: result, freq: infreq * pitchbend, rq: rq, mul: 1.0, add: 0.0 );
+			result = BPF.ar(in: result, freq: infreq * pitchbend, rq: rq, mul: 1.0, add: 0.0 );
+			result = result * 2;
+			result
+		});
+
+		//result2 = FreeVerb2.ar(result, result, mix: mixlevel, room: roomlevel, damp: damplevel, mul: 1, add: 0);
+		//Out.ar(0, result2);
+		var arrchannels = SplayAz.ar(numChans: 2, inArray: banda, spread: 1, level: 1, width: 2, center: 0.0, orientation: 0.5, levelComp: true);
+		Out.ar(0, arrchannels);
 	}
 ).add
-)
+);
 
 (
-SynthDef(
-	name: "Didg",
-	ugenGraphFunc: {
-		arg frequency, breath=0, breathLevel = 0.5, pitchbend = 1, widthlevel=0.5, cutlevel=4, spreadlevel=1;
-		var squarewave1 = LFPulse.ar(freq: (frequency * pitchbend)*spreadlevel, iphase: 0, width: widthlevel, mul: breath * breathLevel, add: 0);
-		var clarsound1 = LPF.ar(in: [squarewave1, squarewave1], freq: cutlevel*frequency, mul: 1, add: 0);
-		var squarewave2 = LFPulse.ar(freq: (frequency * pitchbend)/spreadlevel, iphase: 0, width: widthlevel, mul: breath * breathLevel, add: 0);
-		var clarsound2 = LPF.ar(in: [squarewave2, squarewave2], freq: cutlevel*frequency, mul: 1, add: 0);
-		var result = Mix.new([clarsound1, clarsound2]);
-		Out.ar(0, result);
-	}
-).add
-)
 
-(
 ~usedSynth = Synth(
-	defName: "Didg",
+	defName: "Knife",
 	args: [
-		'frequency', 110,
+		'frequency', 55,
 	],
 	target: s,
 	addAction: 'addToHead'
-)
-)
-
-(
-~usedSynth = Synth(
-	defName: "Normie",
-	args: [
-		'frequency', 440,
-	],
-	target: s,
-	addAction: 'addToHead'
-)
-)
-
-//Usage definitions
+);
 
 (
 
-~aroundFreq = 110;
+~aroundFreq = 55;
 ~numberOfPressedValves = 0;
 
 HIDdef.element(
 	key: \RightHorizontal,
 	func: { |value|
-		~usedSynth.set(\spreadlevel, 2 ** (((value - 0.50196081399918)*2)/12));
+		(value*0.08).postln;
+		~usedSynth.set(\basewidth, value);
 	},
 	elID: 3
 );
@@ -74,26 +60,59 @@ HIDdef.element(
 HIDdef.element(
 	key: \RightVertical,
 	func: { |value|
-		~usedSynth.set(\cutlevel, 4 * (value + 1 - 0.50196081399918));
+		~usedSynth.set(\modmodlevel, (6 * (value * value)) - value);
 	},
 	elID: 4
 );
 
-HIDdef.usage(
+HIDdef.element(
 	key: \LeftVertical,
 	func: { |value|
 		~usedSynth.set(\pitchbend, 2 ** (((value - 0.50196081399918)*2)/12));
+		//value.postln;
 		},
-	elUsageName: \X,
+	elID: 1
+
+);
+
+HIDdef.element(
+	key: \LeftHorizontal,
+	func: { |value|
+		~usedSynth.set(\breathLevel, value );
+		//value.postln;
+		},
+	//elUsageName: \Joystick,
+	elID: 2
 
 );
 
 HIDdef.usage(
-	key: \LeftHorizontal,
+	key: \Select,
 	func: { |value|
-		~usedSynth.set(\breathLevel, value );
+		if (
+			value == 1,
+			{
+				~aroundFreq = ~aroundFreq / 2;
+				~aroundFreq.postln;
+			}
+		)
 		},
-	elUsageName: \Joystick,
+	elUsageName: \b9,
+
+);
+
+HIDdef.usage(
+	key: \Start,
+	func: { |value|
+		if (
+			value == 1,
+			{
+				~aroundFreq = ~aroundFreq * 2;
+				~aroundFreq.postln;
+			}
+		)
+		},
+	elUsageName: \b10,
 
 );
 
@@ -233,4 +252,25 @@ HIDdef.usage(
 
 );
 
-)
+);
+
+w=Window("Gelid", Rect(100, 200, 1000, 600));
+
+w.view.decorator = FlowLayout(w.view.bounds);
+
+~filterslider = EZSlider(w, 900@50, "LPF", ControlSpec(0, 20000, 'lin', 10, 3000), {|ez|  ~usedSynth.set(\cutlevel, ez.value); });
+
+w.view.decorator.nextLine;
+
+~roomslider = EZSlider(w, 300@50, "roomslider", ControlSpec(0, 1, 'lin', 0.01, 0.65), {|ez|  ~usedSynth.set(\roomlevel, ez.value); });
+
+~mixslider = EZSlider(w, 300@50, "mixslider", ControlSpec(0, 1, 'lin', 0.01, 0.16), {|ez|  ~usedSynth.set(\mixlevel, ez.value); });
+
+~dampslider = EZSlider(w, 300@50, "dampslider", ControlSpec(0, 1, 'lin', 0.01, 0.5), {|ez|  ~usedSynth.set(\damplevel, ez.value); });
+
+
+w.front;
+
+);
+
+s.quit

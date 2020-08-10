@@ -1,40 +1,40 @@
+
 s.boot;
 
 HID.findAvailable;
 ~myhid = HID.open( 121, 6 );
 
-//HID.debug = true;
-//HID.debug = false;
-
-//8 * 1.25992 ~~ 10.08
-
 (
 SynthDef(
-	name: "Knife",
+	name: "Gelid",
 	ugenGraphFunc: {
-		arg frequency, basewidth=0.50196081399918, cutlevel=3000, roomlevel=0.65, mixlevel=0.16, damplevel=0.5, pitchbend = 1, breath=0, breathLevel = 0.50196081399918, modmodlevel = 1;
-
-		var banda = Array.fill(6, { arg i;
-			var infreq = frequency * (i + 1);
-			var result = WhiteNoise.ar(mul: (breath * breathLevel) / (i + 1), add: 0.0);
-			result = BPF.ar(in: result, freq: infreq * pitchbend, rq: 0.01, mul: 1.0, add: 0.0 );
-			result = BPF.ar(in: result, freq: infreq * pitchbend, rq: 0.01, mul: 1.0, add: 0.0 );
-			result = result * 2;
-			result
-		});
-
-		//result2 = FreeVerb2.ar(result, result, mix: mixlevel, room: roomlevel, damp: damplevel, mul: 1, add: 0);
-		//Out.ar(0, result2);
-		var arrchannels = SplayAz.ar(numChans: 2, inArray: banda, spread: 1, level: 1, width: 2, center: 0.0, orientation: 0.5, levelComp: true);
-		Out.ar(0, arrchannels);
+		arg
+		    //arguments controlled by GUI
+		    roomlevel,
+		    mixlevel,
+		    damplevel,
+		    //arguments controlled by joystick
+		    frequency,
+		    modindex=(3000 * 0.50196081399918),
+		    cutlevel=3000,
+		    pitchbend = 1,
+		    breath=0,
+		    breathLevel = 0.50196081399918,
+		    modmodlevel = 1;
+		var modfreqratio=10.08;
+		var modulator = LFTri.ar(freq: frequency*modfreqratio, iphase: 0, mul: 1, add: 0);
+		var carrier = LFTri.ar(freq: (frequency + (modulator * modindex * modmodlevel))*pitchbend, iphase: 0, mul: breath * breathLevel, add: 0);
+		var result = LPF.ar(in: carrier, freq: cutlevel, mul: 1, add: 0);
+		var result2 = FreeVerb2.ar(result, result, mix: mixlevel, room: roomlevel, damp: damplevel, mul: 1, add: 0);
+		Out.ar(0, result2);
 	}
 ).add
 );
 
 (
 
-~usedSynth = Synth(
-	defName: "Knife",
+~gelidSynth = Synth(
+	defName: "Gelid",
 	args: [
 		'frequency', 55,
 	],
@@ -42,16 +42,60 @@ SynthDef(
 	addAction: 'addToHead'
 );
 
+
+(
+SynthDef(
+	name: "Didg",
+	ugenGraphFunc: {
+		arg frequency,
+		    breath=0,
+		    breathLevel = 0.5,
+		    pitchbend = 1,
+		    widthlevel=0.5,
+		    rightHorizontal = 0.50196081399918,
+		    cutlevel = 4;
+//		    rightVertical = 0.50196081399918;
+//	    var cutlevel = 4 * (rightVertical + 1 - 0.50196081399918);
+		var spreadlevel = 2 ** (((rightHorizontal - 0.50196081399918)*2)/12);
+		var squarewave1 = LFPulse.ar(freq: (frequency * pitchbend)*spreadlevel, iphase: 0, width: widthlevel, mul: breath * breathLevel, add: 0);
+		var clarsound1 = LPF.ar(in: [squarewave1, squarewave1], freq: cutlevel*frequency, mul: 1, add: 0);
+		var squarewave2 = LFPulse.ar(freq: (frequency * pitchbend)/spreadlevel, iphase: 0, width: widthlevel, mul: breath * breathLevel, add: 0);
+		var clarsound2 = LPF.ar(in: [squarewave2, squarewave2], freq: cutlevel*frequency, mul: 1, add: 0);
+		var result = Mix.new([clarsound1, clarsound2]);
+		Out.ar(0, result);
+	}
+).add
+);
+
+(
+~didgSynth = Synth(
+	defName: "Didg",
+	args: [
+		'frequency', 55,
+	],
+	target: s,
+	addAction: 'addToHead'
+)
+);
+
+~usedSynth = ~didgSynth;
+~usedSynth = ~gelidSynth;
+//Usage definitions
+
 (
 
 ~aroundFreq = 55;
 ~numberOfPressedValves = 0;
+~roomlevel=0.65,
+~mixlevel=0.16,
+~damplevel=0.5,
 
 HIDdef.element(
 	key: \RightHorizontal,
 	func: { |value|
-		(value*700).postln;
-		~usedSynth.set(\basewidth, value);
+		//~usedSynth.set(\spreadlevel, 2 ** (((value - 0.50196081399918)*2)/12));
+		~usedSynth.set(\rightHorizontal, value);
+		//value.postln;
 	},
 	elID: 3
 );
@@ -59,29 +103,28 @@ HIDdef.element(
 HIDdef.element(
 	key: \RightVertical,
 	func: { |value|
-		~usedSynth.set(\modmodlevel, (6 * (value * value)) - value);
+		~usedSynth.set(\cutlevel, 4 * (value + 1 - 0.50196081399918));
+		//~usedSynth.set(\rightVertical, value);
+		value.postln;
 	},
 	elID: 4
 );
 
-HIDdef.element(
+HIDdef.usage(
 	key: \LeftVertical,
 	func: { |value|
 		~usedSynth.set(\pitchbend, 2 ** (((value - 0.50196081399918)*2)/12));
-		//value.postln;
 		},
-	elID: 1
+	elUsageName: \X,
 
 );
 
-HIDdef.element(
+HIDdef.usage(
 	key: \LeftHorizontal,
 	func: { |value|
 		~usedSynth.set(\breathLevel, value );
-		//value.postln;
 		},
-	//elUsageName: \Joystick,
-	elID: 2
+	elUsageName: \Joystick,
 
 );
 
@@ -253,7 +296,7 @@ HIDdef.usage(
 
 );
 
-w=Window("Gelid", Rect(100, 200, 1000, 600));
+w=Window("Langley", Rect(100, 200, 1000, 600));
 
 w.view.decorator = FlowLayout(w.view.bounds);
 
@@ -272,4 +315,3 @@ w.front;
 
 );
 
-s.quit
