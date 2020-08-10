@@ -7,13 +7,76 @@
 			},
 			elID: 3
 		);
-		
-		HIDdef.usage(
+
+		HIDdef.device(
 			key: \R1,
 			func: { |value|
 				Langley.intHID("R1", value);
 			},
 			elUsageName: \b6,
+			deviceName: "Generic   USB  Joystick  ",
+		);
+
+		HIDdef.device(
+			key: \R2,
+			func: { |value|
+				Langley.intHID("R2", value);
+			},
+			elUsageName: \b8,
+			deviceName: "Generic   USB  Joystick  ",
+		);
+
+		HIDdef.device(
+			key: \L1,
+			func: { |value|
+				Langley.intHID("L1", value);
+			},
+			elUsageName: \b5,
+			deviceName: "Generic   USB  Joystick  ",
+		);
+
+		HIDdef.device(
+			key: \L2,
+			func: { |value|
+				Langley.intHID("L2", value);
+			},
+			elUsageName: \b7,
+			deviceName: "Generic   USB  Joystick  ",
+		);
+		HIDdef.device(
+			key: \SR1,
+			func: { |value|
+				Langley.intHID("SR1", value);
+			},
+			elUsageName: \b6,
+			deviceName: "Trust Gamepad",
+		);
+
+		HIDdef.device(
+			key: \SR2,
+			func: { |value|
+				Langley.intHID("SR2", value);
+			},
+			elUsageName: \b8,
+			deviceName: "Trust Gamepad",
+		);
+
+		HIDdef.device(
+			key: \SL1,
+			func: { |value|
+				Langley.intHID("SL1", value);
+			},
+			elUsageName: \b5,
+			deviceName: "Trust Gamepad",
+		);
+
+		HIDdef.device(
+			key: \SL2,
+			func: { |value|
+				Langley.intHID("SL2", value);
+			},
+			elUsageName: \b7,
+			deviceName: "Trust Gamepad",
 		);
 	}
 }
