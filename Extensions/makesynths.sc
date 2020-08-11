@@ -1,7 +1,7 @@
 + Langley {
 	*makesynths {
-		
-		Routine { 	
+
+		Routine {
 		SynthDef(
 			name: "Normie",
 			ugenGraphFunc: {
@@ -11,20 +11,20 @@
 				    gain = 0.5,
 				    rightVertical = 0.5,
 				    rightHorizontal = 0.5;
-				var result = FaustNormik3.ar(freq, gain, gate, rightHorizontal, rightVertical);
+				var result = FaustNormik3.ar(freq * pitchbend, gain, gate, rightHorizontal, rightVertical);
 				Out.ar(0, result);
 			}
 		).add;
 
 		2.wait;
-		
+
 		~normie = Synth(
 			defName: "Normie",
 			//target: s,
 			addAction: 'addToHead'
 			);
-		
+
 		Langley.setcurrentSynth ( ~normie );
 		}.play;
 		}
-}		
+}

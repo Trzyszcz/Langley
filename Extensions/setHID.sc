@@ -8,6 +8,30 @@
 			elID: 3
 		);
 
+		HIDdef.element(
+			key: \RightVertical,
+			func: { |value|
+				Langley.intHID("RightVertical", value);
+			},
+			elID: 4
+		);
+
+		HIDdef.element(
+			key: \LeftVertical,
+			func: { |value|
+				Langley.intHID("LeftVertical", value);
+			},
+			elID: 1
+		);
+
+		HIDdef.element(
+			key: \LeftHorizontal,
+			func: { |value|
+				Langley.intHID("LeftHorizontal", value);
+			},
+			elID: 2
+		);
+
 		HIDdef.device(
 			key: \R1,
 			func: { |value|
