@@ -16,10 +16,30 @@
 			}
 		).add;
 
+		SynthDef(
+			name: "Gutter",
+			ugenGraphFunc: {
+				arg freq = 13.75,
+				    pitchbend = 1,
+				    gate = 0,
+				    gain = 0.5,
+				    rightVertical = 0.5,
+				    rightHorizontal = 0.5;
+				var result = FaustGutter.ar(freq * pitchbend, gain, gate, rightHorizontal, rightVertical);
+				Out.ar(0, result);
+			}
+		).add;
+
 		2.wait;
 
 		~normie = Synth(
 			defName: "Normie",
+			//target: s,
+			addAction: 'addToHead'
+			);
+
+		~gutter = Synth(
+			defName: "Gutter",
 			//target: s,
 			addAction: 'addToHead'
 			);

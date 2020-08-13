@@ -1,7 +1,8 @@
 + Langley {
 	*valveHID { | message_type, value |
-		message_type.postln;
-		value.postln;
+		if ( message_type != "LeftHorizontal",
+			{message_type.postln; value.postln}
+		);
 		/*
 		if( message_type == "R1",
 			{ Langley.pushvalve(1, value) },
@@ -21,6 +22,10 @@
 			"RightVertical", { Langley.currentSynth.set(\rightVertical, value) },
 			"LeftVertical", { Langley.currentSynth.set(\pitchbend, 2 ** (((value - 0.50196081399918)*2)/12)) },
 			"LeftHorizontal", { Langley.currentSynth.set(\gain, value) },
+			"A", { Langley.setcurrentSynth ( ~normie ) },
+			"X", { Langley.setcurrentSynth ( ~gutter ) },
+			"O", { "O".postln; },
+			"D", { "D".postln; },
 		);
 
 		}

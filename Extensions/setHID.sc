@@ -102,5 +102,37 @@
 			elUsageName: \b7,
 			deviceName: "Trust Gamepad",
 		);
+
+		HIDdef.usage(
+			key: \A,
+			func: { |value|
+				Langley.intHID("A", value);
+			},
+			elUsageName: \b1,
+		);
+
+		HIDdef.usage(
+			key: \X,
+			func: { |value|
+				Langley.intHID("X", value);
+			},
+			elUsageName: \b3,
+		);
+
+		HIDdef.usage(
+			key: \O,
+			func: { |value|
+				Langley.intHID("O", value);
+			},
+			elUsageName: \b2,
+		);
+
+		HIDdef.usage(
+			key: \D,
+			func: { |value|
+				Langley.intHID("D", value);
+			},
+			elUsageName: \b4,
+		);
 	}
 }
