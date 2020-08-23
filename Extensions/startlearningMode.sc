@@ -24,11 +24,13 @@
 
 			~path = "./Documents/supercollider/Langley/data/" ++ ~date.stamp();
 			~file = File.new(~path, "w");
-			~file.write("dupa\n");
+			~file.write(Langley.tempo);
+			~file.write("\n");
 			~memorylist.do( { |item| ~file.write(item) } );
 			~file.close;
 			"Closed".postln;
 			~memorylist.postln;
+			~memorylist.clear;
 		}.play;
 
 	}

@@ -3,11 +3,21 @@
 		if ( message_type != "LeftHorizontal",
 			{message_type.postln; value.postln}
 		);
-		/*
-		if( message_type == "R1",
-			{ Langley.pushvalve(1, value) },
+
+		if ( Langley.learningMode == true,
+			{
+				switch( message_type,
+					"R1", { ~memorylist.add("R1" + value + Date.getDate.hourStamp ++ "\n"); },
+					"L1", { ~memorylist.add("L1" + value + Date.getDate.hourStamp ++ "\n"); },
+					"R2", { ~memorylist.add("R2" + value + Date.getDate.hourStamp ++ "\n"); },
+					"L2", { ~memorylist.add("L2" + value + Date.getDate.hourStamp ++ "\n"); },
+					"SR1", { ~memorylist.add("SR1" + value + Date.getDate.hourStamp ++ "\n"); },
+					"SL1", { ~memorylist.add("SL1" + value + Date.getDate.hourStamp ++ "\n"); },
+					"SR2", { ~memorylist.add("SR2" + value + Date.getDate.hourStamp ++ "\n"); },
+					"SL2", { ~memorylist.add("SL2" + value + Date.getDate.hourStamp ++ "\n"); },
+				);
+			}
 		);
-		*/
 
 		switch( message_type,
 			"R1", { Langley.pushvalve(1, value) },
