@@ -6,6 +6,7 @@ Langley {
 	classvar aroundFreq = 13.75;
 	classvar learningMode = false;
 	classvar tempo = 120;
+	classvar meter = 8;
 	//~memorylist = List.newClear;
 
 
@@ -15,13 +16,15 @@ Langley {
 	*aroundFreq { ^aroundFreq }
 	*learningMode { ^learningMode }
 	*tempo { ^tempo }
+	*meter { ^meter }
 
 	*settypeHIDint { |value| typeHIDint = value; }
 	*setcurrentSynth { |value| currentSynth = value; "setcursynth was called! With ".post; value.postln; }
 	*setnumberOfPressedValves { |value| numberOfPressedValves = value; }
 	*setaroundFreq { |value| aroundFreq = value; }
 	*setlearningMode { |value| learningMode = value; }
-	*settempo { |value| tempo = value;}
+	*settempo { |value| tempo = value; }
+	*setmeter { |value| meter = value; }
 
 	*start {
 		HID.findAvailable;
