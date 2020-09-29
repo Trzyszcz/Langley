@@ -31,6 +31,20 @@
 		).add;
 
 		SynthDef(
+			name: "Mou",
+			ugenGraphFunc: {
+				arg freq = 13.75,
+				    pitchbend = 1,
+				    gate = 0,
+				    gain = 0.5,
+				    rightVertical = 0.5,
+				    rightHorizontal = 0.5;
+				var result = FaustMou.ar(freq * pitchbend, gain, gate, rightHorizontal, rightVertical);
+				Out.ar(0, result);
+			}
+		).add;
+
+		SynthDef(
 			name: "Hihat",
 			ugenGraphFunc: {
 				arg freq = 440,
@@ -57,6 +71,12 @@
 
 		~hihat = Synth(
 				defName: "Hihat",
+				//target: s,
+				addAction: 'addToHead'
+			);
+
+		~mou = Synth(
+				defName: "Mou",
 				//target: s,
 				addAction: 'addToHead'
 			);

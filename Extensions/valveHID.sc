@@ -34,7 +34,7 @@
 			"LeftHorizontal", { Langley.currentSynth.set(\gain, value) },
 			"A", { Langley.setcurrentSynth ( ~normie ) },
 			"X", { Langley.setcurrentSynth ( ~gutter ) },
-			"O", { "O".postln; },
+			"O", { Langley.setcurrentSynth ( ~mou )    },
 			"D", { "D".postln; },
 		);
 
