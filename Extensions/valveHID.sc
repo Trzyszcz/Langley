@@ -32,10 +32,10 @@
 			"RightVertical", { Langley.currentSynth.set(\rightVertical, value) },
 			"LeftVertical", { Langley.currentSynth.set(\pitchbend, 2 ** (((value - 0.50196081399918)*2)/12)) },
 			"LeftHorizontal", { Langley.currentSynth.set(\gain, value) },
-			"A", { Langley.setcurrentSynth ( ~normie ) },
-			"X", { Langley.setcurrentSynth ( ~gutter ) },
-			"O", { Langley.setcurrentSynth ( ~mou )    },
-			"D", { "D".postln; },
+			"A", { if ( value == 1.0, { Langley.changeSynth ( "up" ); } ); },
+			"X", { if ( value == 1.0, { Langley.changeSynth ( "down" ); } ); },
+			"O", { if ( value == 1.0, { Langley.changeSynth ( "right" ); } ); },
+			"D", { if ( value == 1.0, { Langley.changeSynth ( "left" ); } ); },
 		);
 
 		}

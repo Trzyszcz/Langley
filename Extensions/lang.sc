@@ -2,6 +2,9 @@ Langley {
 
 	classvar typeHIDint = "valve";
 	classvar currentSynth = "null";
+	classvar currentSynthX = 0;
+	classvar currentSynthY = 0;
+	classvar synthsTableSize = 3;
 	classvar numberOfPressedValves = 0;
 	classvar aroundFreq = 13.75;
 	classvar learningMode = false;
@@ -12,6 +15,10 @@ Langley {
 
 	*typeHIDint { ^typeHIDint }
 	*currentSynth { ^currentSynth }
+	*currentSynthX { ^currentSynthX }
+	*currentSynthY { ^currentSynthY }
+	*synthsTableSize { ^synthsTableSize }
+	//*synthsTable { ^synthsTable }
 	*numberOfPressedValves { ^numberOfPressedValves }
 	*aroundFreq { ^aroundFreq }
 	*learningMode { ^learningMode }
@@ -20,6 +27,8 @@ Langley {
 
 	*settypeHIDint { |value| typeHIDint = value; }
 	*setcurrentSynth { |value| currentSynth = value; "setcursynth was called! With ".post; value.postln; }
+	*setcurrentSynthX { |value| currentSynthX = value; }
+	*setcurrentSynthY { |value| currentSynthY = value; }
 	*setnumberOfPressedValves { |value| numberOfPressedValves = value; }
 	*setaroundFreq { |value| aroundFreq = value; }
 	*setlearningMode { |value| learningMode = value; }

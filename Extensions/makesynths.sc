@@ -80,7 +80,11 @@
 				//target: s,
 				addAction: 'addToHead'
 			);
-
+		~synthsTable = [
+			[ ~normie, ~mou,    ~normie ],
+			[ ~gutter, ~normie, ~normie ],
+			[ ~normie, ~normie, ~normie ]
+		];
 		Langley.setcurrentSynth ( ~normie );
 		}.play;
 		}
