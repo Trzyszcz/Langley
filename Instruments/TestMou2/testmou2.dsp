@@ -1,4 +1,4 @@
-declare name "TestMou";
+declare name "TestMou2";
 declare nvoices "16";
 
 import("stdfaust.lib");
@@ -41,7 +41,7 @@ distortion(x) =
 
 distorted_timbre = distortion((RightHorizontal + 0.1) * timbre) / (RightHorizontal + 0.1);
 
-dry_sound = gain * (1/(2^(RightHorizontal - (1/2)))) * (gate : Envelope) * distorted_timbre : fi.lowpass(2, 9000);
+dry_sound = gain * (1/(2^( (RightVertical - (1/2)) * 3 ))) * (gate : Envelope) * distorted_timbre : fi.lowpass(2, 9000);
 
 wet_sound = 0.05*dry_sound : re.mono_freeverb(0.5, 0.5, 0.5, 0.5);
 

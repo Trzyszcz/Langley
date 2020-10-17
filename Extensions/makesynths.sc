@@ -59,6 +59,20 @@
 		).add;
 
 		SynthDef(
+			name: "TestMou2",
+			ugenGraphFunc: {
+				arg freq = 13.75,
+				    pitchbend = 1,
+				    gate = 0,
+				    gain = 0.5,
+				    rightVertical = 0.5,
+				    rightHorizontal = 0.5;
+				var result = FaustTestMou2.ar(freq * pitchbend, gain, gate, rightHorizontal, rightVertical);
+				Out.ar(0, result);
+			}
+		).add;
+
+		SynthDef(
 			name: "Hihat",
 			ugenGraphFunc: {
 				arg freq = 440,
@@ -101,10 +115,16 @@
 				addAction: 'addToHead'
 			);
 
+		~testmou2 = Synth(
+				defName: "TestMou2",
+				//target: s,
+				addAction: 'addToHead'
+			);
+
 		~synthsTable = [
-			[ ~normie, ~mou,    ~testmou ],
-			[ ~gutter, ~normie, ~normie  ],
-			[ ~normie, ~normie, ~normie  ]
+			[ ~normie, ~mou,    ~testmou  ],
+			[ ~gutter, ~normie, ~testmou2 ],
+			[ ~normie, ~normie, ~normie   ]
 		];
 		Langley.setcurrentSynth ( ~normie );
 		}.play;
