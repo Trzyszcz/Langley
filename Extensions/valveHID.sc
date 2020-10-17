@@ -30,7 +30,7 @@
 			"SL2", { Langley.pushvalve(1/2, value) },
 			"RightHorizontal", { Langley.currentSynth.set(\rightHorizontal, value) },
 			"RightVertical", { Langley.currentSynth.set(\rightVertical, value) },
-			"LeftVertical", { Langley.currentSynth.set(\pitchbend, 2 ** (((value - 0.50196081399918)*2)/12)) },
+			"LeftVertical", { Langley.currentSynth.set(\pitchbend, 2 ** (((0.50196081399918 - value)*2)/12)) },
 			"LeftHorizontal", { Langley.currentSynth.set(\gain, value) },
 			"A", { if ( value == 1.0, { Langley.changeSynth ( "up" ); } ); },
 			"X", { if ( value == 1.0, { Langley.changeSynth ( "down" ); } ); },
