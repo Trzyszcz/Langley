@@ -29,7 +29,7 @@
 			func: { |value|
 				Langley.intHID("LeftHorizontal", value);
 			},
-			elID: 2
+			elID: 0
 		);
 
 		HIDdef.device(
