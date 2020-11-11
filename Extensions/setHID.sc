@@ -134,5 +134,18 @@
 			},
 			elUsageName: \b4,
 		);
+
+		if( (vintage==false), {
+			HIDdef.device(
+				key: \RF,
+				func: { |value|
+					Langley.intHID("FR", value);
+				},
+				elUsageName: \Y,
+				deviceName: "Saitek R220 ",
+			);
+		}
+		);
+
 	}
 }

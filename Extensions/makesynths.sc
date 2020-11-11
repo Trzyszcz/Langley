@@ -65,9 +65,10 @@
 				    pitchbend = 1,
 				    gate = 0,
 				    gain = 0.5,
+					initgain = 1,
 				    rightVertical = 0.5,
 				    rightHorizontal = 0.5;
-				var result = FaustTestMou2.ar(freq * pitchbend, gain, gate, rightHorizontal, rightVertical);
+				var result = FaustTestMou2.ar(freq * pitchbend, gain, gate, initgain, rightHorizontal, rightVertical);
 				Out.ar(0, result);
 			}
 		).add;

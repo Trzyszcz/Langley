@@ -1,5 +1,5 @@
 + Langley {
-	*valveHID { | message_type, value |
+	*vintage_valveHID { | message_type, value |
 		if ( message_type != "LeftHorizontal",
 			{message_type.postln; value.postln}
 		);
@@ -20,14 +20,14 @@
 		);
 
 		switch( message_type,
-			"R1", { Langley.pushvalve(1, value) },
-			"L1", { Langley.pushvalve(2, value) },
-			"R2", { Langley.pushvalve(4, value) },
-			"L2", { Langley.pushvalve(8, value) },
-			"SR1", { Langley.pushvalve(16, value) },
-			"SL1", { Langley.pushvalve(32, value) },
-			"SR2", { Langley.pushvalve(64, value) },
-			"SL2", { Langley.pushvalve(1/2, value) },
+			"R1", { Langley.pushvintagevalve(1, value) },
+			"L1", { Langley.pushvintagevalve(2, value) },
+			"R2", { Langley.pushvintagevalve(4, value) },
+			"L2", { Langley.pushvintagevalve(8, value) },
+			"SR1", { Langley.pushvintagevalve(16, value) },
+			"SL1", { Langley.pushvintagevalve(32, value) },
+			"SR2", { Langley.pushvintagevalve(64, value) },
+			"SL2", { Langley.pushvintagevalve(1/2, value) },
 			"RightHorizontal", { Langley.currentSynth.set(\rightHorizontal, value) },
 			"RightVertical", { Langley.currentSynth.set(\rightVertical, value) },
 			"LeftVertical", { Langley.currentSynth.set(\pitchbend, 2 ** (((0.50196081399918 - value)*2)/12)) },

@@ -6,11 +6,12 @@ import("stdfaust.lib");
 freq = nentry("freq", 440, 20, 20000, 0.01);
 gain = nentry("gain", 0.3, 0, 10, 0.01) : si.smoo;
 gate = button("gate");
+initgain = nentry("initgain", 0.3, 0, 10, 0.01) : si.smoo;
 
 RightHorizontal = hslider("righthorizontal", 0.5, 0, 1, 0.01);
 RightVertical = hslider("rightvertical", 0.5, 0, 1, 0.01);
 
-Envelope = en.adsr(0.1, 0, 1, 0.1);
+Envelope = initgain * en.adsr(0.1, 0, 1, 0.1);
 
 nullify = *(0);
 f1(x) = no.multinoise(4) <: _,nullify,nullify,nullify :> ba.downSample(x) : fi.lowpass(1, x);

@@ -1,5 +1,5 @@
 + Langley {
-	*pushvalve { | numberOfSemitones, value |
+	*pushvintagevalve { | numberOfSemitones, value |
 
 		"pushvalve was called!".postln;
 
@@ -28,4 +28,4 @@
 		},
 	)
 	}
-}		
+}

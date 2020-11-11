@@ -1,6 +1,6 @@
 Langley {
 
-	classvar typeHIDint = "valve";
+	classvar typeHIDint = "vintage_valve"; //vintage_valve or floor_trigger_valve
 	classvar currentSynth = "null";
 	classvar currentSynthX = 0;
 	classvar currentSynthY = 0;
@@ -10,6 +10,11 @@ Langley {
 	classvar learningMode = false;
 	classvar tempo = 120;
 	classvar meter = 8;
+	classvar vintage = true; //says if floor pedals for triggers are NOT used
+	classvar minusone0 = 0;
+	classvar minusone1 = 0;
+	classvar minustwo0 = 0;
+	classvar minustwo1 = 0;
 	//~memorylist = List.newClear;
 
 
@@ -24,6 +29,11 @@ Langley {
 	*learningMode { ^learningMode }
 	*tempo { ^tempo }
 	*meter { ^meter }
+	*vintage { ^vintage }
+	*minusone0 { ^minusone0 }
+	*minustwo0 { ^minustwo0 }
+	*minusone1 { ^minusone1 }
+	*minustwo1 { ^minustwo1 }
 
 	*settypeHIDint { |value| typeHIDint = value; }
 	*setcurrentSynth { |value| currentSynth = value; "setcursynth was called! With ".post; value.postln; }
@@ -34,11 +44,17 @@ Langley {
 	*setlearningMode { |value| learningMode = value; }
 	*settempo { |value| tempo = value; }
 	*setmeter { |value| meter = value; }
+	*setvintage { |value| vintage = value; }
+	*setminusone0 { |value| minusone0 = value; }
+	*setminustwo0 { |value| minustwo0 = value; }
+	*setminusone1 { |value| minusone1 = value; }
+	*setminustwo1 { |value| minustwo1 = value; }
 
 	*start {
 		HID.findAvailable;
 		~myhid  = HID.open( 121, 6 );
 		~myhid2 = HID.open( 5215, 453 );
+		if( (vintage == false), {~myhid  = HID.open( 1699, 1286 ) } );
 		Langley.makesynths;
 		Langley.setHID;
 	}
