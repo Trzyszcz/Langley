@@ -74,6 +74,21 @@
 		).add;
 
 		SynthDef(
+			name: "Gong",
+			ugenGraphFunc: {
+				arg freq = 13.75,
+				    pitchbend = 1,
+				    gate = 0,
+				    gain = 0.5,
+					initgain = 1,
+				    rightVertical = 0.5,
+				    rightHorizontal = 0.5;
+				var result = FaustGong.ar(freq * pitchbend, gain, gate, initgain, rightHorizontal, rightVertical);
+				Out.ar(0, result);
+			}
+		).add;
+
+		SynthDef(
 			name: "Hihat",
 			ugenGraphFunc: {
 				arg freq = 440,
@@ -122,9 +137,15 @@
 				addAction: 'addToHead'
 			);
 
+		~gong = Synth(
+				defName: "Gong",
+				//target: s,
+				addAction: 'addToHead'
+			);
+
 		~synthsTable = [
 			[ ~normie, ~mou,    ~testmou  ],
-			[ ~gutter, ~normie, ~testmou2 ],
+			[ ~gutter, ~gong, ~testmou2 ],
 			[ ~normie, ~normie, ~normie   ]
 		];
 		Langley.setcurrentSynth ( ~normie );
