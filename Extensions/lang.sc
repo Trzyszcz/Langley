@@ -11,10 +11,11 @@ Langley {
 	classvar tempo = 120;
 	classvar meter = 8;
 	classvar vintage = true; //says if floor pedals for triggers are NOT used
-	classvar minusone0 = 0;
+	classvar minusone0 = 1;
 	classvar minusone1 = 0;
-	classvar minustwo0 = 0;
+	classvar minustwo0 = 1;
 	classvar minustwo1 = 0;
+	classvar is_Rpedal_pressed = false; //says if floor pedal is IN PROCESS of pressing
 	//~memorylist = List.newClear;
 
 
@@ -34,6 +35,7 @@ Langley {
 	*minustwo0 { ^minustwo0 }
 	*minusone1 { ^minusone1 }
 	*minustwo1 { ^minustwo1 }
+	*is_Rpedal_pressed { ^is_Rpedal_pressed }
 
 	*settypeHIDint { |value| typeHIDint = value; }
 	*setcurrentSynth { |value| currentSynth = value; "setcursynth was called! With ".post; value.postln; }
@@ -49,6 +51,7 @@ Langley {
 	*setminustwo0 { |value| minustwo0 = value; }
 	*setminusone1 { |value| minusone1 = value; }
 	*setminustwo1 { |value| minustwo1 = value; }
+	*setis_Rpedal_pressed { |value| is_Rpedal_pressed = value; }
 
 	*start {
 		HID.findAvailable;

@@ -11,7 +11,7 @@ initgain = nentry("initgain", 0.3, 0, 10, 0.01) : si.smoo;
 RightHorizontal = hslider("righthorizontal", 0.5, 0, 1, 0.01);
 RightVertical = hslider("rightvertical", 0.5, 0, 1, 0.01);
 
-Envelope = initgain * en.adsr(0.1, 0.2, 0.5, 2);
+Envelope = initgain * en.adsr(0.05, 0.1, 0.5, 2);
 
 mod_ind = 2 * RightHorizontal;
 mod = os.osc(freq * (3/2));
