@@ -107,11 +107,27 @@
 			addAction: 'addToHead'
 			);
 
-		~gutter = Synth(
-			defName: "Gutter",
-			//target: s,
-			addAction: 'addToHead'
-			);
+			// ~gutter = Synth(
+			// 	defName: "Gutter",
+			// 	//target: s,
+			// 	addAction: 'addToHead'
+			// );
+
+		~gutter = [
+				0,
+				Array.fill( 4,
+				{
+					| value |
+					var syn = Synth(
+						defName: "Gutter",
+						//target: s,
+						addAction: 'addToHead'
+					);
+					syn.run(false);
+					syn
+				}
+			)
+			];
 
 		~hihat = Synth(
 				defName: "Hihat",
@@ -119,11 +135,27 @@
 				addAction: 'addToHead'
 			);
 
-		~mou = Synth(
-				defName: "Mou",
-				//target: s,
-				addAction: 'addToHead'
-			);
+			// ~mou = Synth(
+			// 	defName: "Mou",
+			// 	//target: s,
+			// 	addAction: 'addToHead'
+			// );
+
+		~mou = [
+				0,
+				Array.fill( 4,
+				{
+					| value |
+					var syn = Synth(
+						defName: "Mou",
+						//target: s,
+						addAction: 'addToHead'
+					);
+					syn.run(false);
+					syn
+				}
+			)
+			];
 
 		~testmou = Synth(
 				defName: "TestMou",
@@ -137,18 +169,32 @@
 				addAction: 'addToHead'
 			);
 
-		~gong = Synth(
-				defName: "Gong",
-				//target: s,
-				addAction: 'addToHead'
-			);
+		~gong = [
+				0,
+				Array.fill( 4,
+				{
+					| value |
+					var syn = Synth(
+						defName: "Gong",
+						//target: s,
+						addAction: 'addToHead'
+					);
+					syn.run(false);
+					syn
+				}
+			)
+			];
 
 		~synthsTable = [
-			[ ~normie, ~mou,    ~testmou  ],
+			[ ~gong, ~mou,    ~testmou  ],
 			[ ~gutter, ~gong, ~testmou2 ],
 			[ ~normie, ~normie, ~normie   ]
 		];
-		Langley.setcurrentSynth ( ~normie );
+			Langley.setcurrentSynth ( ~gong[1][0] );
+			0.5.wait;
+			~gong[1][0].run(true);
+			~mou[1][0].run(true);
+			~gutter[1][0].run(true);
 		}.play;
 		}
 }

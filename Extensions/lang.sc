@@ -16,6 +16,7 @@ Langley {
 	classvar minustwo0 = 1;
 	classvar minustwo1 = 0;
 	classvar is_Rpedal_pressed = false; //says if floor pedal is IN PROCESS of pressing
+	classvar is_cur_synth_silent = true;
 	//~memorylist = List.newClear;
 
 
@@ -36,6 +37,7 @@ Langley {
 	*minusone1 { ^minusone1 }
 	*minustwo1 { ^minustwo1 }
 	*is_Rpedal_pressed { ^is_Rpedal_pressed }
+	*is_cur_synth_silent { ^is_cur_synth_silent }
 
 	*settypeHIDint { |value| typeHIDint = value; }
 	*setcurrentSynth { |value| currentSynth = value; "setcursynth was called! With ".post; value.postln; }
@@ -52,6 +54,7 @@ Langley {
 	*setminusone1 { |value| minusone1 = value; }
 	*setminustwo1 { |value| minustwo1 = value; }
 	*setis_Rpedal_pressed { |value| is_Rpedal_pressed = value; }
+	*setis_cur_synth_silent { |value| is_cur_synth_silent = value; }
 
 	*start {
 		HID.findAvailable;

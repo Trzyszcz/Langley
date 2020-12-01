@@ -1,5 +1,7 @@
 + Langley {
 	*changeSynth { | message_type |
+		var current_synth_type, cur_index;
+
 		switch( message_type,
 			"up",    { if( Langley.currentSynthY == 0,
 				{ Langley.setcurrentSynthY( Langley.synthsTableSize - 1 ) },
@@ -26,7 +28,9 @@
 			},
 		);
 
-		Langley.setcurrentSynth( ~synthsTable[Langley.currentSynthY][Langley.currentSynthX] );
+		current_synth_type = ~synthsTable[Langley.currentSynthY][Langley.currentSynthX];
+		cur_index = current_synth_type[0];
+		Langley.setcurrentSynth( current_synth_type[1][cur_index] );
 
 	}
 }

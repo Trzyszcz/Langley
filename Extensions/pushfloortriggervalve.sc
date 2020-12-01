@@ -3,6 +3,17 @@
 
 		"pushvalve was called!".postln;
 
+		if ( (Langley.is_cur_synth_silent == false),
+			{
+				var current_synth_type = ~synthsTable[Langley.currentSynthY][Langley.currentSynthX];
+				var next_index = (current_synth_type[0] + 1) % 4;
+				current_synth_type[1][next_index].run(true);
+				Langley.setcurrentSynth( current_synth_type[1][next_index]);
+				current_synth_type[0] = next_index;
+				Langley.setis_cur_synth_silent(true);
+			} //end true
+		);
+
 		if ( value == 1,
 		{
 

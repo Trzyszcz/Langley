@@ -2,7 +2,14 @@
 
 + Langley {
 	*pressfloortrigger { | value |
-		if( (Langley.minusone0 == 0), { Langley.currentSynth.set(\gate, 0) } );
+		if( (Langley.minusone0 == 0),
+			{
+				Langley.currentSynth.set(\gate, 0);
+				Langley.setis_cur_synth_silent(false);
+
+		} //end true
+		); //end if
+
 		if( Langley.is_Rpedal_pressed,
 			//minustwo0 is value when pressing was started
 			//minustwo1 is time when pressing was started
