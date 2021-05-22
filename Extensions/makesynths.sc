@@ -17,6 +17,21 @@
 		).add;
 
 		SynthDef(
+			name: "Organ",
+			ugenGraphFunc: {
+				arg freq = 13.75,
+				    pitchbend = 1,
+				    gate = 0,
+				    gain = 0.5,
+				    rightVertical = 0.5,
+				    rightHorizontal = 0.5,
+					leftPush = 0;
+				var result = FaustOrgan.ar(leftPush, freq * pitchbend, gain, gate, rightHorizontal, rightVertical);
+				Out.ar(0, result);
+			}
+		).add;
+
+		SynthDef(
 			name: "Gutter",
 			ugenGraphFunc: {
 				arg freq = 13.75,
@@ -43,6 +58,21 @@
 				Out.ar(0, result);
 			}
 		).add;
+
+		SynthDef(
+			name: "Uan",
+			ugenGraphFunc: {
+				arg freq = 13.75,
+				    pitchbend = 1,
+				    gate = 0,
+				    gain = 0.5,
+				    rightVertical = 0.5,
+				    rightHorizontal = 0.5;
+				var result = FaustUan.ar(freq * pitchbend, gain, gate, rightHorizontal, rightVertical);
+				Out.ar(0, result);
+			}
+		).add;
+
 
 		SynthDef(
 			name: "TestMou",
@@ -113,6 +143,22 @@
 			// 	addAction: 'addToHead'
 			// );
 
+		~organ = [
+				0,
+				Array.fill( 4,
+				{
+					| value |
+					var syn = Synth(
+						defName: "Organ",
+						//target: s,
+						addAction: 'addToHead'
+					);
+					syn.run(false);
+					syn
+				}
+			)
+			];
+
 		~gutter = [
 				0,
 				Array.fill( 4,
@@ -169,6 +215,22 @@
 				addAction: 'addToHead'
 			);
 
+		~uan = [
+				0,
+				Array.fill( 4,
+				{
+					| value |
+					var syn = Synth(
+						defName: "Uan",
+						//target: s,
+						addAction: 'addToHead'
+					);
+					syn.run(false);
+					syn
+				}
+			)
+			];
+
 		~gong = [
 				0,
 				Array.fill( 4,
@@ -187,14 +249,16 @@
 
 		~synthsTable = [
 			[ ~gong, ~mou,    ~testmou  ],
-			[ ~gutter, ~gong, ~testmou2 ],
-			[ ~normie, ~normie, ~normie   ]
+			[ ~gutter, ~uan, ~testmou2 ],
+			[ ~organ, ~normie, ~normie   ]
 		];
 			Langley.setcurrentSynth ( ~gong[1][0] );
 			0.5.wait;
 			~gong[1][0].run(true);
 			~mou[1][0].run(true);
 			~gutter[1][0].run(true);
+			~uan[1][0].run(true);
+			~organ[1][0].run(true);
 		}.play;
 		}
 }
