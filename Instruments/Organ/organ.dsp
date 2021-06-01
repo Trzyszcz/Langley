@@ -20,9 +20,9 @@ Main_part(freq) = (56/100) * os.osc(freq + (freq*(2/5)*os.osc(7*freq)));
 
 High_part(freq) = (70/100) * (os.osc(2*freq) + (1/3) * os.osc(3*2*freq) + (1/5) * os.osc(5*2*freq));
 
-timbre = distortion( (Lower_part(freq) + Main_part(freq) + High_part(freq)) * RightHorizontal);
+timbre = distortion( (Lower_part(freq) + Main_part(freq) + High_part(freq)) * (0.04 + RightHorizontal));
 
-dry_sound = timbre * gain * (gate : Envelope) : fi.lowpass(2, 9000*(1 + RightVertical));
+dry_sound = timbre * gain * (gate : Envelope) : fi.lowpass(2, 9000*(0.5 + RightVertical));
 
 wet_sound = 0.15*dry_sound : re.mono_freeverb(0.5, 0.5, 0.5, 0.5);
 
