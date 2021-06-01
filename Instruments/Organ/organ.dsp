@@ -11,6 +11,7 @@ RightHorizontal = hslider("righthorizontal", 0.5, 0, 1, 0.01);
 RightVertical = hslider("rightvertical", 0.5, 0, 1, 0.01);
 
 LeftPush = button("LeftPush");
+RightPush = button("RightPush");
 
 Envelope = en.adsr(0.1, 0, 1, 0.1);
 
@@ -35,8 +36,10 @@ distortion(x) =
 
 main_stream = wet_sound + (dry_sound*0.85);
 
-delay = + ~ ( @(5*48000) *(19/20) );
+long_delay = + ~ ( @(5*48000) *(19/20) );
+short_delay = + ~ ( @(0.5*48000) *(1/3) );
 
-delayed_stream = ( wet_sound + (dry_sound*0.85) ) * LeftPush : delay;
+short_delayed_stream = main_stream * RightPush : short_delay;
+long_delayed_stream = ( main_stream + short_delayed_stream ) * LeftPush : long_delay;
 
-process = main_stream + delayed_stream <:_,_;
+process = main_stream + short_delayed_stream + long_delayed_stream <:_,_;

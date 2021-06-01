@@ -37,6 +37,7 @@
 			"O", { if ( value == 1.0, { Langley.changeSynth ( "right" ); } ); },
 			"D", { if ( value == 1.0, { Langley.changeSynth ( "left" ); } ); },
 			"LeftPush", { Langley.currentSynth.set(\leftPush, value) },
+			"RightPush", { Langley.currentSynth.set(\rightPush, value) },
 		);
 
 		}

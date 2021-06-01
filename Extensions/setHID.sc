@@ -10,6 +10,14 @@
 		);
 
 		HIDdef.element(
+			key: \RightPush,
+			func: { |value|
+				Langley.intHID("RightPush", value);
+			},
+			elID: 17
+		);
+
+		HIDdef.element(
 			key: \RightHorizontal,
 			func: { |value|
 				Langley.intHID("RightHorizontal", value);
