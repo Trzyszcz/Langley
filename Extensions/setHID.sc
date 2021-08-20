@@ -22,7 +22,8 @@
 			func: { |value|
 				Langley.intHID("RightHorizontal", value);
 			},
-			elID: 3
+			elID: 3,
+			deviceName: "Generic   USB  Joystick  ",
 		);
 
 		HIDdef.element(

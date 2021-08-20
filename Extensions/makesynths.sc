@@ -204,17 +204,38 @@
 			)
 			];
 
-		~testmou = Synth(
-				defName: "TestMou",
-				//target: s,
-				addAction: 'addToHead'
-			);
 
-		~testmou2 = Synth(
-				defName: "TestMou2",
-				//target: s,
-				addAction: 'addToHead'
-			);
+		~testmou = [
+				0,
+				Array.fill( 4,
+				{
+					| value |
+					var syn = Synth(
+						defName: "TestMou",
+						//target: s,
+						addAction: 'addToHead'
+					);
+					syn.run(false);
+					syn
+				}
+			)
+			];
+
+		~testmou2 = [
+				0,
+				Array.fill( 4,
+				{
+					| value |
+					var syn = Synth(
+						defName: "TestMou2",
+						//target: s,
+						addAction: 'addToHead'
+					);
+					syn.run(false);
+					syn
+				}
+			)
+			];
 
 		~uan = [
 				0,
@@ -257,6 +278,8 @@
 			0.5.wait;
 			~gong[1][0].run(true);
 			~mou[1][0].run(true);
+			~testmou[1][0].run(true);
+			~testmou2[1][0].run(true);
 			~gutter[1][0].run(true);
 			~uan[1][0].run(true);
 			~organ[1][0].run(true);
