@@ -23,11 +23,11 @@
 				    pitchbend = 1,
 				    gate = 0,
 				    gain = 0.5,
+				    leftVertical = 0.5,
 				    rightVertical = 0.5,
-				    rightHorizontal = 0.5,
 					rightPush = 0,
 					leftPush = 0;
-				var result = FaustOrgan.ar(leftPush, rightPush, freq * pitchbend, gain, gate, rightHorizontal, rightVertical);
+				var result = FaustOrgan.ar(leftPush, rightPush, freq * pitchbend, gain, gate, leftVertical, rightVertical);
 				Out.ar(0, result);
 			}
 		).add;
