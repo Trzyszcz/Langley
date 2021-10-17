@@ -121,6 +121,30 @@
 		).add;
 
 		SynthDef(
+			name: "TestFMGrain",
+			ugenGraphFunc: {
+				arg freq = 13.75,
+				    pitchbend = 1,
+				    gate = 0,
+				    gain = 0.5,
+					initgain = 1,
+				    leftVertical = 0.5,
+				    rightVertical = 0.5,
+					ratio = 200/440;
+				var result = gate*gain*FMGrain.ar(Impulse.ar(20*leftVertical), 0.14 * rightVertical, freq * pitchbend, ratio * freq * pitchbend,
+						//LFNoise1.ar(1).range(1, 10),
+						10,
+						EnvGen.kr(
+							Env([0, 1, 0], [1, 1], \sin, 1),
+							1,
+							levelScale: 1,
+							doneAction: 2)
+					);
+				Out.ar(0, result);
+			}
+		).add;
+
+		SynthDef(
 			name: "Gong",
 			ugenGraphFunc: {
 				arg freq = 13.75,
@@ -183,6 +207,22 @@
 					| value |
 					var syn = Synth(
 						defName: "Vang",
+						//target: s,
+						addAction: 'addToHead'
+					);
+					syn.run(false);
+					syn
+				}
+			)
+			];
+
+		~testFMGrain = [
+				0,
+				Array.fill( 4,
+				{
+					| value |
+					var syn = Synth(
+						defName: "TestFMGrain",
 						//target: s,
 						addAction: 'addToHead'
 					);
@@ -304,7 +344,7 @@
 		~synthsTable = [
 			[ ~gong, ~mou,    ~testmou  ],
 			[ ~gutter, ~uan, ~testmou2 ],
-			[ ~organ, ~vang, ~normie   ]
+			[ ~organ, ~vang, ~testFMGrain ]
 		];
 			Langley.setcurrentSynth ( ~gong[1][0] );
 			0.5.wait;
@@ -316,6 +356,7 @@
 			~uan[1][0].run(true);
 			~organ[1][0].run(true);
 			~vang[1][0].run(true);
+			~testFMGrain[1][0].run(true);
 		}.play;
 		}
 }
