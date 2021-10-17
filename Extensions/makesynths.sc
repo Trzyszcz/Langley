@@ -55,9 +55,9 @@
 				    pitchbend = 1,
 				    gate = 0,
 				    gain = 0.5,
-				    rightVertical = 0.5,
-				    rightHorizontal = 0.5;
-				var result = FaustGutter.ar(freq * pitchbend, gain, gate, rightHorizontal, rightVertical);
+				    leftVertical = 0.5,
+				    rightVertical = 0.5;
+				var result = FaustGutter.ar(freq * pitchbend, gain, gate, leftVertical, rightVertical);
 				Out.ar(0, result);
 			}
 		).add;
