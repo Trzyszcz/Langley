@@ -10,9 +10,11 @@ gate = button("gate");
 LeftVertical = hslider("leftvertical", 0.5, 0, 1, 0.01);
 RightVertical = hslider("rightvertical", 0.5, 0, 1, 0.01);
 
+filres = nentry("filres", 1, 0.1, 20, 0.01);
+
 Envelope = en.adsr(0.1, 0, 1, 0.1);
 
-basictimbre(x) = (1/2)*os.pulsetrain(x*1.01, LeftVertical/2) + (1/2)*os.pulsetrain(x*0.99, LeftVertical/2) : fi.resonlp( (8*RightVertical + 4)*x, 1, 1);
+basictimbre(x) = (1/2)*os.pulsetrain(x*1.01, LeftVertical/2) + (1/2)*os.pulsetrain(x*0.99, LeftVertical/2) : fi.resonlp( (8*RightVertical + 4)*x, filres, 1);
 
 dry_sound = gain * (gate : Envelope) * basictimbre(freq);
 
