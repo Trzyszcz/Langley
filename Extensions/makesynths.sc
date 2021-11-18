@@ -141,7 +141,7 @@
 							levelScale: 1,
 							doneAction: 2)
 					);
-				Out.ar(0, result);
+					Out.ar(0, [result, result]);
 			}
 		).add;
 
