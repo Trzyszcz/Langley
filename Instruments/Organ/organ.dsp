@@ -27,7 +27,7 @@ u_freq = freq*(1 + (0.2*(RightVertical - 0.50196081399918)));
 
 distorted_timbre = distortion(timbre(freq) + timbre(u_freq));
 
-dry_sound = distorted_timbre * gain * (gate : Envelope) : fi.lowpass(2, 9000);
+dry_sound = (distorted_timbre - 1/8) * gain * (gate : Envelope) : fi.lowpass(2, 9000);
 
 wet_sound = 0.15*dry_sound : re.mono_freeverb(0.5, 0.5, 0.5, 0.5);
 
