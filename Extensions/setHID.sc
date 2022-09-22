@@ -6,7 +6,8 @@
 			func: { |value|
 				Langley.intHID("LeftPush", value);
 			},
-			elID: 16
+			elID: 16,
+			deviceName: "Generic   USB  Joystick  ",
 		);
 
 		HIDdef.element(
@@ -14,7 +15,8 @@
 			func: { |value|
 				Langley.intHID("RightPush", value);
 			},
-			elID: 17
+			elID: 17,
+			deviceName: "Generic   USB  Joystick  ",
 		);
 
 		HIDdef.element(
@@ -130,6 +132,7 @@
 				Langley.intHID("A", value);
 			},
 			elUsageName: \b1,
+			deviceName: "Generic   USB  Joystick  ",
 		);
 
 		HIDdef.usage(
@@ -138,6 +141,7 @@
 				Langley.intHID("X", value);
 			},
 			elUsageName: \b3,
+			deviceName: "Generic   USB  Joystick  ",
 		);
 
 		HIDdef.usage(
@@ -146,6 +150,7 @@
 				Langley.intHID("O", value);
 			},
 			elUsageName: \b2,
+			deviceName: "Generic   USB  Joystick  ",
 		);
 
 		HIDdef.usage(
@@ -154,6 +159,7 @@
 				Langley.intHID("D", value);
 			},
 			elUsageName: \b4,
+			deviceName: "Generic   USB  Joystick  ",
 		);
 
 		if( (vintage==false), {
