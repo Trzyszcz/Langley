@@ -5,11 +5,9 @@ This is repository for SuperCollider patch which allows to control synthesizers 
 In order to use Langley, you need to have SuperCollider installed, and copy Extensions and Instruments folders into your SuperCollider extensions directory.
 #TODO make a script to do this automatically
 
-Then you need to change some lines of code to use your own gamepads instead of
-the same ones as me.
+Then you need to change some lines of code to use your own gamepads instead of the same ones as me.
 
-Gamepads are contacting with computer by HID protocol. After connecting them to
-your computer, use SuperCollider command:
+Gamepads are contacting with computer by HID protocol. After connecting them to your computer, use SuperCollider command:
 
 HID.findAvailable;
 
@@ -73,15 +71,15 @@ LT - quarter tone (1/2 half-step)
 So, for example, if one would like to play A-moll scale starting with A=440Hz:
 
 A  H  C  D  E  F  G
-00 00 00 01 01 01 01
-11 11 11 00 00 00 00
+00 10 11 01 11 00 01
 11 11 11 00 00 01 01
-00 10 11 01 11 00 10
+11 11 11 00 00 00 00
+00 00 00 01 01 01 01
 
-Where 00 corresponds to BLT BRT, where BLT corresponds to LT of bottom gamepad
-      11                BLB BRT
+Where 00 corresponds to TLT TRT, where BLT corresponds to LT of bottom gamepad
       11                TLB TRB
-      00                TLT TLB
+      11                BLT BRT
+      00                BLB BLB
 
 0 corresonds to depressed button and 1 to pressed button.
 
@@ -94,7 +92,11 @@ Other buttons don't do anything (yet).
 	#TODO make a tutorial how to do it
 	(A personal opinion - while I would agree, that it is much less beginner friendly then guitar or piano, I would argue that it is easier than trumpet or violin)
 
-	1.1.1 Notes are playing while no shoulder buttons are pressed. What is happening and how can I stop it?
+	1.1.1 Why would I use it instead of normal MIDI controler?
+
+	With normal MIDI controler you normally use one hand to play notes, and the whole second hand to control stick with two degrees of freedom. Using gamepad you can control two sticks with just thumbs, with four degrees of freedom. Also, different instruments have different flavors based on scales which are easy to play on them. For example, keyboards are designed so C-dur and A-moll are easy to play, on Langley on the other hand whole-tone scale is easier to play than diatonic ones (just don't use RT button on the top gamepad!). Huge interval jumps (bigger than octave) should also be easier than with one-handed keyboard playing.
+
+	1.1.2 Notes are playing while no shoulder buttons are pressed. What is happening and how can I stop it?
 
 	You probably changed synth while playing a note, so a previous one didn't receive a HID message to end a note. Try playing any other note on a previous synth.
 	#TODO explain it in more detail, as it may by used intentionally to play drone. Also write a command to stop all sounds automatically
