@@ -4,10 +4,10 @@ declare nvoices "16";
 import("stdfaust.lib");
 
 freq = nentry("freq", 440, 20, 20000, 1);
-gain = nentry("gain", 0.3, 0, 10, 0.01);
+gain = nentry("gain", 0.3, 0, 10, 0.01): si.smoo;
 gate = button("gate");
 
-RightVertical = hslider("rightvertical", 0.5, 0, 1, 0.01);
+RightVertical = hslider("rightvertical", 0.5, 0, 1, 0.01) : si.smoo;
 LeftVertical = hslider("leftvertical", 0.5, 0, 1, 0.01);
 
 LeftPush = button("LeftPush");
@@ -25,7 +25,7 @@ noised_frequencies(base_freq) = noise_for_unison(32) :
      add_noise_to_freq(base_freq), add_noise_to_freq(base_freq), add_noise_to_freq(base_freq), add_noise_to_freq(base_freq);
 
 timbre(x) = noised_frequencies(x) :
-    os.sawtooth, os.sawtooth, os.sawtooth, os.sawtooth :> fi.lowpass(1, 100 + (400*RightVertical));
+    os.sawtooth, os.sawtooth, os.sawtooth, os.sawtooth :> fi.lowpass(2, 100 + (400*RightVertical));
 
 dry_sound = timbre(freq)*(gate : Envelope)*gain;
 
