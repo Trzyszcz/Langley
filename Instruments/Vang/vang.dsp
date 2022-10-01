@@ -25,7 +25,7 @@ noised_frequencies(base_freq) = noise_for_unison(32) :
      add_noise_to_freq(base_freq), add_noise_to_freq(base_freq), add_noise_to_freq(base_freq), add_noise_to_freq(base_freq);
 
 timbre(x) = noised_frequencies(x) :
-    os.sawtooth, os.sawtooth, os.sawtooth, os.sawtooth :> fi.lowpass(2, 100 + (400*RightVertical));
+    os.sawtooth, os.sawtooth, os.sawtooth, os.sawtooth :> fi.lowpass(1, 100 + (400*RightVertical));
 
 dry_sound = timbre(freq)*(gate : Envelope)*gain;
 
