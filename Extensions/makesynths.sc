@@ -33,6 +33,22 @@
 		).add;
 
 		SynthDef(
+			name: "Distorgan",
+			ugenGraphFunc: {
+				arg freq = 13.75,
+				    pitchbend = 1,
+				    gate = 0,
+				    gain = 0.5,
+				    leftVertical = 0.5,
+				    rightVertical = 0.5,
+					rightPush = 0,
+					leftPush = 0;
+				var result = FaustDistorgan.ar(leftPush, rightPush, freq * pitchbend, gain, gate, leftVertical, rightVertical);
+				Out.ar(0, result);
+			}
+		).add;
+
+		SynthDef(
 			name: "Vang",
 			ugenGraphFunc: {
 				arg freq = 13.75,
@@ -233,6 +249,22 @@
 			)
 			];
 
+		~distorgan = [
+				0,
+				Array.fill( 4,
+				{
+					| value |
+					var syn = Synth(
+						defName: "Distorgan",
+						//target: s,
+						addAction: 'addToHead'
+					);
+					syn.run(false);
+					syn
+				}
+			)
+			];
+
 		~vang = [
 				0,
 				Array.fill( 4,
@@ -391,11 +423,11 @@
 			];
 
 		~synthsTable = [
-			[ ~gong, ~mou,    ~testmou  ],
+			[ ~distorgan, ~mou,    ~testmou  ],
 			[ ~gutter, ~uan, ~vioclu ],
 			[ ~organ, ~vang, ~testFMGrain ]
 		];
-			Langley.setcurrentSynth ( ~gong[1][0] );
+			Langley.setcurrentSynth ( ~distorgan[1][0] );
 			0.5.wait;
 			~gong[1][0].run(true);
 			~mou[1][0].run(true);
@@ -403,6 +435,7 @@
 			~vioclu[1][0].run(true);
 			~gutter[1][0].run(true);
 			~uan[1][0].run(true);
+			~distorgan[1][0].run(true);
 			~organ[1][0].run(true);
 			~vang[1][0].run(true);
 			~testFMGrain[1][0].run(true);
