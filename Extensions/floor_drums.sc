@@ -46,8 +46,9 @@
 			ugenGraphFunc: {
 				arg freq = 220,
 				    gate = 0,
-				    gain = 1;
-				var result = FaustSnare.ar(freq, gain, gate);
+				    gain = 1,
+					rightpush = 0;
+				var result = FaustSnare.ar(rightpush, freq, gain, gate);
 				Out.ar(0, result);
 			}
 		).add;

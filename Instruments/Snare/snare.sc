@@ -1,11 +1,11 @@
 FaustSnare : MultiOutUGen
 {
-  *ar { | frequency(220.0), gain(1.0), gate(0.0) |
-      ^this.multiNew('audio', frequency, gain, gate)
+  *ar { | rightpush(0.0), frequency(220.0), gain(1.0), gate(0.0) |
+      ^this.multiNew('audio', rightpush, frequency, gain, gate)
   }
 
-  *kr { | frequency(220.0), gain(1.0), gate(0.0) |
-      ^this.multiNew('control', frequency, gain, gate)
+  *kr { | rightpush(0.0), frequency(220.0), gain(1.0), gate(0.0) |
+      ^this.multiNew('control', rightpush, frequency, gain, gate)
   } 
 
   init { | ... theInputs |
