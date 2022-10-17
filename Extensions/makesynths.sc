@@ -65,6 +65,22 @@
 		).add;
 
 		SynthDef(
+			name: "Shash",
+			ugenGraphFunc: {
+				arg freq = 13.75,
+				    pitchbend = 1,
+				    gate = 0,
+				    gain = 0.5,
+				    leftVertical = 0.5,
+				    rightVertical = 0.5,
+					rightPush = 0,
+					leftPush = 0;
+				var result = FaustShash.ar(leftPush, rightPush, freq * pitchbend, gain, gate, rightVertical);
+				Out.ar(0, result);
+			}
+		).add;
+
+		SynthDef(
 			name: "Gutter",
 			ugenGraphFunc: {
 				arg freq = 13.75,
@@ -281,6 +297,22 @@
 			)
 			];
 
+		~shash = [
+				0,
+				Array.fill( 4,
+				{
+					| value |
+					var syn = Synth(
+						defName: "Shash",
+						//target: s,
+						addAction: 'addToHead'
+					);
+					syn.run(false);
+					syn
+				}
+			)
+			];
+
 		~testFMGrain = [
 				0,
 				Array.fill( 4,
@@ -424,7 +456,7 @@
 
 		~synthsTable = [
 			[ ~distorgan, ~mou,    ~testmou  ],
-			[ ~gutter, ~uan, ~vioclu ],
+			[ ~gutter, ~shash, ~vioclu ],
 			[ ~organ, ~vang, ~testFMGrain ]
 		];
 			Langley.setcurrentSynth ( ~distorgan[1][0] );
@@ -434,6 +466,7 @@
 			~testmou[1][0].run(true);
 			~vioclu[1][0].run(true);
 			~gutter[1][0].run(true);
+			~shash[1][0].run(true);
 			~uan[1][0].run(true);
 			~distorgan[1][0].run(true);
 			~organ[1][0].run(true);
