@@ -184,11 +184,9 @@
 				arg freq = 13.75,
 				    pitchbend = 1,
 				    gate = 0,
-				    gain = 0.5,
-					initgain = 1,
-				    rightVertical = 0.5,
-				    rightHorizontal = 0.5;
-				var result = FaustGong.ar(freq * pitchbend, gain, gate, initgain, rightHorizontal, rightVertical);
+				    gain = 0.25,
+					mod_ind = 1.1;
+				var result = FaustGong.ar(freq * pitchbend, gain, gate, mod_ind);
 				Out.ar(0, result);
 			}
 		).add;

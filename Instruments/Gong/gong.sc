@@ -1,11 +1,11 @@
 FaustGong : MultiOutUGen
 {
-  *ar { | freq(440.0), gain(0.3), gate(0.0), initgain(0.3), righthorizontal(0.5) |
-      ^this.multiNew('audio', freq, gain, gate, initgain, righthorizontal)
+  *ar { | freq(110.0), gain(0.3), gate(0.0), mod_ind(1.1) |
+      ^this.multiNew('audio', freq, gain, gate, mod_ind)
   }
 
-  *kr { | freq(440.0), gain(0.3), gate(0.0), initgain(0.3), righthorizontal(0.5) |
-      ^this.multiNew('control', freq, gain, gate, initgain, righthorizontal)
+  *kr { | freq(110.0), gain(0.3), gate(0.0), mod_ind(1.1) |
+      ^this.multiNew('control', freq, gain, gate, mod_ind)
   } 
 
   init { | ... theInputs |

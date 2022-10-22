@@ -3,20 +3,21 @@
 		HID.findAvailable;
 
 		~myhid  = HID.open( 1699, 1286 );
+		~gam = false;
+		~gong[1][0].set(\freq, 220);
+		~gong[1][1].run(true);
+		~gong[1][1].set(\freq, 110);
 
 		HIDdef.device(
 			key: \RF,
 			func: { |value|
 				//"RF ".post;
 				//value.postln;
-				if( (value==0),
-					{
-						//~hihat.set(\gain, gain);
-						~snare.set(\gate, 1);
-					},
-					{
-						~snare.set(\gate, 0);
-					}
+				//if( (value==0), {~snare.set(\gate, 1) }, {~snare.set(\gate, 0) });
+				//if( (~gam), { if( (value==0), {~snare.set(\gate, 1) }, {~snare.set(\gate, 0) }) } );
+				if( (~gam),
+					{ if( (value==0), {~gong[1][0].set(\gate, 1) }, {~gong[1][0].set(\gate, 0) }) } ,
+					{ if( (value==0), {~snare.set(\gate, 1) }, {~snare.set(\gate, 0) }) },
 				);
 			},
 			elUsageName: \Y,
@@ -26,7 +27,12 @@
 		HIDdef.device(
 			key: \LF,
 			func: { |value|
-				if( (value==0),
+
+				if( (~gam),
+					{ if( (value==0), {~gong[1][1].set(\gate, 1) }, {~gong[1][1].set(\gate, 0) }) },
+					{ if( (value==0), {~bassdrum.set(\gate, 1) }, {~bassdrum.set(\gate, 0) }) },
+				);
+				/*if( (value==0),
 					{
 						//~hihat.set(\gain, gain);
 						~bassdrum.set(\gate, 1);
@@ -35,7 +41,7 @@
 					{
 						~bassdrum.set(\gate, 0);
 					}
-				);
+				);*/
 			},
 			elUsageName: \Slider,
 			deviceName: "Saitek R220 ",
