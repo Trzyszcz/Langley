@@ -19,6 +19,9 @@ Langley {
 	classvar is_cur_synth_silent = true;
 	//~memorylist = List.newClear;
 
+	const <ccen = 0.50196081399918;
+	const <rcen = 0.56470590829849;
+	const <lcen = 0.43529412150383;
 
 	*typeHIDint { ^typeHIDint }
 	*currentSynth { ^currentSynth }

@@ -27,7 +27,9 @@
 				    rightVertical = 0.5,
 					rightPush = 0,
 					leftPush = 0;
-				var result = FaustOrgan.ar(leftPush, rightPush, freq * pitchbend, gain, gate, leftVertical, rightVertical);
+				var nleftVertical = Langley.stand_leveler(leftVertical),
+					nrightVertical = Langley.stand_leveler(rightVertical),
+				    result = FaustOrgan.ar(leftPush, rightPush, freq * pitchbend, gain, gate, leftVertical, rightVertical);
 				Out.ar(0, result);
 			}
 		).add;

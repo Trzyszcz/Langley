@@ -28,7 +28,7 @@
 			"SL1", { Langley.pushvintagevalve(32, value) },
 			"SR2", { Langley.pushvintagevalve(64, value) },
 			"SL2", { Langley.pushvintagevalve(1/2, value) },
-			"RightHorizontal", { Langley.currentSynth.set(\pitchbend, 2 ** (((0.50196081399918 - (1 - value) )*2)/12)) },
+			"RightHorizontal", { Langley.currentSynth.set(\pitchbend, 2 ** (((0.5 - (1 - Langley.stand_leveler(value) )*2)/12))) },
 			"RightVertical", { Langley.currentSynth.set(\rightVertical, value) },
 			"LeftVertical", { Langley.currentSynth.set(\leftVertical, value) },
 			"LeftHorizontal", { Langley.currentSynth.set(\gain, ((2 ** (value - 1)) - (1/2))); "LH ".post; value.postln; },
