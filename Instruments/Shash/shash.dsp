@@ -8,7 +8,7 @@ gain = nentry("gain", 0.3, 0, 10, 0.01): si.smoo;
 gate = button("gate");
 
 RightVertical = hslider("rightvertical", 0.5, 0, 1, 0.01) : si.smoo;
-LeftVertical = hslider("leftvertical", 0.5, 0, 1, 0.01);
+LeftVertical = hslider("leftvertical", 0.5, 0, 1, 0.01) : si.smoo;
 
 LeftPush = button("LeftPush");
 RightPush = button("RightPush");
@@ -16,10 +16,12 @@ RightPush = button("RightPush");
 Envelope = en.adsr(0.1, 0, 1, 0.1);
 
 noilev = 0.001;
-pgain = 80;
+pgain = 160 * LeftVertical;
 mspread = 0.0489508 * (2.71828^(1.83413*(2*RightVertical + 1)));
 
-my_sound(xfreq) = (no.noise * noilev <: fi.peak_eq_rm(pgain, xfreq, mspread*0.0001) : fi.lowpass(3, 1.5*xfreq) : fi.highpass(3, 0.5*xfreq));
+frelim(xfreq) = min(xfreq, 20000);
+
+my_sound(xfreq) = (no.noise * noilev <: fi.peak_eq_rm(pgain, xfreq, mspread*0.0001) : fi.lowpass(3, frelim(1.5*xfreq)) : fi.highpass(3, frelim(0.5*xfreq)));
 
 timbre(x) = my_sound(x) + (1/2) * my_sound(x*2) + (1/3) * my_sound(x*3);
 

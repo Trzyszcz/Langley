@@ -75,7 +75,7 @@
 				    rightVertical = 0.5,
 					rightPush = 0,
 					leftPush = 0;
-				var result = FaustShash.ar(leftPush, rightPush, freq * pitchbend, gain, gate, rightVertical);
+				var result = FaustShash.ar(leftPush, rightPush, freq * pitchbend, gain, gate, leftVertical, rightVertical);
 				Out.ar(0, result);
 			}
 		).add;
