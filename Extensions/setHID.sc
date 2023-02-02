@@ -96,7 +96,8 @@
 				Langley.intHID("SR1", value);
 			},
 			elUsageName: \b6,
-			deviceName: "Trust Gamepad",
+			//deviceName: "Trust Gamepad",
+			deviceName: "USB Joystick          ",
 		);
 
 		HIDdef.device(
@@ -105,7 +106,8 @@
 				Langley.intHID("SR2", value);
 			},
 			elUsageName: \b8,
-			deviceName: "Trust Gamepad",
+			//deviceName: "Trust Gamepad",
+			deviceName: "USB Joystick          ",
 		);
 
 		HIDdef.device(
@@ -114,7 +116,8 @@
 				Langley.intHID("SL1", value);
 			},
 			elUsageName: \b5,
-			deviceName: "Trust Gamepad",
+			//deviceName: "Trust Gamepad",
+			deviceName: "USB Joystick          ",
 		);
 
 		HIDdef.device(
@@ -123,7 +126,8 @@
 				Langley.intHID("SL2", value);
 			},
 			elUsageName: \b7,
-			deviceName: "Trust Gamepad",
+			//deviceName: "Trust Gamepad",
+			deviceName: "USB Joystick          ",
 		);
 
 		HIDdef.usage(
