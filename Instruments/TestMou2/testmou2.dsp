@@ -1,5 +1,5 @@
 declare name "TestMou2";
-declare nvoices "16";
+//declare nvoices "16";
 
 import("stdfaust.lib");
 

@@ -227,9 +227,9 @@
 		SynthDef(
 			name: "Hihat",
 			ugenGraphFunc: {
-				arg freq = 440,
+				arg freq = 220,
 				    gate = 0,
-				    gain = 0.3;
+				    gain = 1;
 				var result = FaustHihat.ar(freq, gain, gate);
 				Out.ar(0, result);
 			}

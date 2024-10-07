@@ -39,7 +39,9 @@ powlou = RightVertical;
 
 distorted_timbre = distortion(timbre(freq0) + powlou*timbre((3/2)*freq1));
 
-dry_sound = (distorted_timbre - 1/8) * gain * (gate : Envelope) : fi.lowpass(2, 9000);
+wah_timbre = distorted_timbre; // + LeftVertical * fi.peak_eq_rm(2, LeftVertical*2000, LeftVertical*2);
+
+dry_sound = (wah_timbre - 1/8) * gain * (gate : Envelope) : fi.lowpass(2, 9000);
 
 wet_sound = 0.15*dry_sound : re.mono_freeverb(0.5, 0.5, 0.5, 0.5);
 

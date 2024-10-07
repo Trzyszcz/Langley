@@ -61,6 +61,7 @@ Langley {
 
 	*start {
 		HID.findAvailable;
+		//~myhid   = HID.open( 121, 6, );
 		~myhid   = HID.open( 121, 6, "/dev/hidraw0" );
 		~myhid2  = HID.open( 121, 6, "/dev/hidraw1" );
 		//~myhid2 = HID.open( 5215, 453 );
