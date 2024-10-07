@@ -224,17 +224,6 @@
 				}
 			).add;
 
-		SynthDef(
-			name: "Hihat",
-			ugenGraphFunc: {
-				arg freq = 220,
-				    gate = 0,
-				    gain = 1;
-				var result = FaustHihat.ar(freq, gain, gate);
-				Out.ar(0, result);
-			}
-		).add;
-
 		2.wait;
 
 		~normie = Synth(
@@ -344,12 +333,6 @@
 				}
 			)
 			];
-
-		~hihat = Synth(
-				defName: "Hihat",
-				//target: s,
-				addAction: 'addToHead'
-			);
 
 			// ~mou = Synth(
 			// 	defName: "Mou",
